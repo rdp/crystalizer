@@ -1,8 +1,6 @@
-require "rubygems"
-
 spec = Gem::Specification.new do |s|
 	s.name = "ruby2cext"
-	s.version = "0.2.0"
+	s.version = "0.2.0.1"
 	s.author = "Dominik Bathon"
 	s.email = "dbatml@gmx.de"
 	s.homepage = "http://ruby2cext.rubyforge.org/"
@@ -16,9 +14,3 @@ spec = Gem::Specification.new do |s|
 	s.add_dependency("rubynode", ">= 0.1.1")
 	s.required_ruby_version = '~> 1.8.4'
 end
-
-if __FILE__ == $0
-	Gem::manage_gems
-	Gem::Builder.new(spec).build
-end
-
