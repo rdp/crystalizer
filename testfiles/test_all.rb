@@ -1,14 +1,7 @@
-$: << File.dirname(__FILE__) + '/../lib'
-require 'frubygems'
-require 'rubynode'
-require "ruby2cext/compiler"
-require "ruby2cext/version"
-require 'sane' # TODOR dependency-ify for tests
-require 'logger'
+require File.dirname(__FILE__) + '/test_bootstrap'
+include Ruby2CExtension
 
 Dir.glob('test_files/*.{c,so,o}').each{|f| File.delete f} # cleanup
-
-include Ruby2CExtension
 
 for file_name in Dir['test_files/*.rb']
   # TODO grab the normal ruby output, then grab the ruby2c output :)

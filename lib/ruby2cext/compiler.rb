@@ -6,6 +6,7 @@ require "ruby2cext/error"
 require "ruby2cext/tools"
 require "ruby2cext/c_function"
 require "ruby2cext/version"
+require "ruby2cext/concretize"
 
 module Ruby2CExtension
 
@@ -27,7 +28,7 @@ module Ruby2CExtension
       @preprocessors = {}
     end
 
-    # plugins is [:name, :name] or [:all]
+    # plugins is {:optimizations => :all || [:name1, :name2]}, also {:warnings => true} or something 
     # logger if require 'logger'; Logger.new
     # include_paths = [] # dirs
     # only_c -- pass true if you just want the source, not compiled
