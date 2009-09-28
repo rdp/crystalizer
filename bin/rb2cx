@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
-
+if File.exist? '../ruby2cext.gemspec'
+  $: << '../lib' # in case you use it without installing from the gem
+  require 'rubygems'
+end
 require "ruby2cext/compiler"
 require "ruby2cext/version"
 require "getoptlong"
@@ -70,41 +73,6 @@ rb2cx -wv file.rb
 rb2cx -I . -O all file.rb
 rb2cx -I . -I ../libs -O const_cache -O builtin_methods -w file.rb
 EOS
-end
-
-def compile_file(file_name, plugins, include_paths, only_c, logger)
-	bn = File.basename(file_name)
-	unless bn =~ /\A(.*)\.rb\w?\z/
-		raise "#{file_name} is no ruby file"
-	end
-	name = $1;
-	unless name =~ /\A\w+\z/
-		raise "'#{name}' is not a valid extension name"
-	end
-	file_name = File.join(File.dirname(file_name), bn)
-
-	logger.info("reading #{file_name}")
-	source_str = IO.read(file_name)
-
-	logger.info("translating #{file_name} to C")
-	c = Compiler.new(name, logger)
-	unless include_paths.empty?
-		plugins = plugins.merge({:require_include => [include_paths, [file_name]]})
-	end
-	logger.debug("plugins = #{plugins.inspect}")
-	c.add_plugins(plugins)
-	logger.debug("plugins used: #{c.plugins.map { |pi| pi.class }.inspect}")
-	c.add_rb_file(source_str, file_name)
-	c_code = c.to_c_code
-
-	c_file_name = File.join(File.dirname(file_name), "#{name}.c")
-	logger.info("writing #{c_file_name}")
-	File.open(c_file_name, "w") { |f| f.puts(c_code) }
-
-	unless only_c
-		logger.info("compiling #{c_file_name}")
-		Compiler.compile_c_file_to_dllib(c_file_name, logger)
-	end
 end
 
 def main
@@ -182,7 +150,7 @@ def main
 
 	begin
 		ARGV.each { |fn|
-			compile_file(fn, plugins, include_paths, only_c, logger)
+			Compiler.compile_file(fn, plugins, include_paths, only_c, logger)
 		}
 	rescue RuntimeError, SyntaxError => e
 		logger.error(e)
