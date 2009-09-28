@@ -1,4 +1,6 @@
-
+# appears to only optimize calls
+# to self that have no parameters?
+# or possibly matching parameters?
 require "ruby2cext/error"
 require "ruby2cext/plugin"
 require "ruby2cext/plugins/util"
@@ -8,6 +10,10 @@ module Ruby2CExtension::Plugins
 class DirectSelfCall < Ruby2CExtension::Plugin
 
     include Util
+    @@only_private = true
+    def DirectSelfCall.allow_public_methods
+      @@only_private = false
+    end
 
     def call(cfun, node)
         hash = node.last
@@ -47,8 +53,10 @@ class DirectSelfCall < Ruby2CExtension::Plugin
                 name.clone
             }
             ret = cfun.comp_defn(hash)
-            unless cfun.scope.vmode.equal?(:private)
-                @ruby2c_method.delete([cfun,mid])
+            if @@only_private
+              unless cfun.scope.vmode.equal?(:private)
+                @ruby2c_method.delete([cfun,mid]) # pretend we never even saw this method...
+              end
             end
             @scope = scope0
             klass.send(:define_method, :add_fun, _add_fun.unbind)
@@ -62,5 +70,4 @@ class DirectSelfCall < Ruby2CExtension::Plugin
 end
 
 end
-
 

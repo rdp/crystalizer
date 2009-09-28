@@ -1,4 +1,4 @@
-
+# this one inlines [trivial] ruby methods, like #nil?
 require "ruby2cext/plugin"
 
 module Ruby2CExtension::Plugins

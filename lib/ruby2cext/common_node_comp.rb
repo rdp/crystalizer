@@ -1030,6 +1030,7 @@ module Ruby2CExtension
 				hash = node.last
 				if hash[:head]
 					assign_res(comp(hash[:head]))
+					helper_class_module_check
 					l "class_module_check(res);"
 					"res"
 				else
@@ -1047,7 +1048,9 @@ module Ruby2CExtension
 				if Symbol === hash[:vid]
 					l "rb_const_set(#{get_cbase}, #{sym(hash[:vid])}, val);"
 				else
-					l "rb_const_set(#{make_class_prefix(hash[:else])}, #{sym(hash[:else].last[:mid])}, val);"
+				  out = make_class_prefix(hash[:else])
+				  require '_dbg' if out.nil? or out == ''
+					l "rb_const_set(#{out}, #{sym(hash[:else].last[:mid])}, val);"
 				end
 				"val"
 			}
@@ -1296,7 +1299,13 @@ module Ruby2CExtension
 			c_scope_res {
 				l "VALUE prefix, tmp_class;"
 				l "VALUE super;" if sup
-				l "prefix = #{make_class_prefix(hash[:cpath])};"
+				puts 
+				out = make_class_prefix(hash[:cpath])
+            if out.nil? or out == '' or out == '('
+            puts 'bad', 'from', hash
+				  raise hash
+				end
+				l "prefix = #{out};"
 				l "super = #{comp(sup)};" if sup
 				l "tmp_class = class_prep(prefix, #{sup ? "super" : "0"}, #{sym(hash[:cpath].last[:mid])});"
 				CFunction::ClassModuleScope.compile(self, hash[:body], "tmp_class", true)
@@ -1322,7 +1331,9 @@ module Ruby2CExtension
 			EOC
 			c_scope_res {
 				l "VALUE prefix, tmp_module;"
-				l "prefix = #{make_class_prefix(hash[:cpath])};"
+				out = make_class_prefix(hash[:cpath])
+				require '_dbg' if out.nil? or out == '' or out == '('
+				l "prefix = #{out};"
 				l "tmp_module = module_prep(prefix, #{sym(hash[:cpath].last[:mid])});"
 				CFunction::ClassModuleScope.compile(self, hash[:body], "tmp_module", false)
 			}

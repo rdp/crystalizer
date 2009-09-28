@@ -89,7 +89,7 @@ def main
 
 	logger = Logger.new(STDERR)
 	logger.formatter = proc { |severity, time, progname, msg| "#{msg}\n" }
-	logger.level = Logger::WARN
+	logger.level = Logger::INFO
 
 	only_c = false
 	include_paths = []

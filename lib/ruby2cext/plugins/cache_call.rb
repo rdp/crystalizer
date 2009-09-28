@@ -1,3 +1,16 @@
+# this one does something like... 
+# @ location X
+# there is a call of method y on z
+# if z has the same class as last time
+# then do something of a pseudo-ruby-call into that method, since
+# we have a pointer saved to it from the previous time.
+# the pseudo-ruby call being necessary so that we can pass in arguments in ruby like fashion
+# to the C method, etc.
+# what are the limitations?
+#
+# this one also conflicts with builtin_extensions
+# which...might be faster?
+# TODOR make the order matter
 
 require "ruby2cext/error"
 require "ruby2cext/plugin"
@@ -276,5 +289,4 @@ class CacheCall < Ruby2CExtension::Plugin
 end
 
 end
-
 

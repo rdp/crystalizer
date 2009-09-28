@@ -8,6 +8,12 @@ require "ruby2cext/c_function"
 require "ruby2cext/version"
 require "ruby2cext/concretize"
 
+# preload plugins, too, so we can access some variables of theirs...
+# ltodo this doesn't hurt anything, does it?
+for file in Dir[File.dirname(__FILE__) + '/plugins/*.rb'] do
+  require file
+end
+
 module Ruby2CExtension
 
   class Compiler
@@ -282,7 +288,7 @@ module Ruby2CExtension
     def preprocessors_for(node_type)
       @preprocessors[node_type]
     end
-
+require 'popen4'
     conf = ::Config::CONFIG
     cflags = [conf["CCDLFLAGS"], conf["CFLAGS"], conf["ARCH_FLAG"]].join(" ")
     COMPILE_COMMAND = "#{conf["LDSHARED"]} #{cflags} -I . -I #{conf["archdir"]} " # added -c
@@ -304,8 +310,9 @@ module Ruby2CExtension
         cmd << " -L#{ conf['libdir'] } #{ conf["LIBRUBYARG_SHARED"] } "
       end
       logger.info(cmd) if logger
+
       unless system(cmd) # run it
-        raise Ruby2CExtError, "error while executing '#{cmd}'"
+        raise Ruby2CExtError, "error while executing '#{cmd}' #{`cmd`}"
       end
       dl_name
     end

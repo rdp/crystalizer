@@ -219,12 +219,15 @@ class A
   # still the same internal vmode, still public
   define_method(:a) {} # public
 
-  private # is replaced with nil, does not affect Ruby's internal vmode
+  private # is replaced with nil, does not affect Ruby's internal vmode, only affects the
+  # level given to method b, just below
   def b; end # private
 
   # but Ruby's internal vmode is still public
-  define_method(:c) {} # public
-  attr_accessor :d, :e # also public
+  define_method(:c) {} # public, which is wrong
+  attr_accessor :d, :e # also public, which is wrong
+  
+  def c; end # private, which is right
 end
 PREEND
 
@@ -237,6 +240,8 @@ class A
   private :a
 end
 PREEND
+
+TODO do that automatically.
 
 In methods the internal vmode is that of the nearest Ruby SCOPE (as explained
 above), so it is usually unpredictable. And additionally calling one of the
@@ -258,7 +263,7 @@ class A
 end
 PREEND
 
-To be save, don't use the vmode changing methods without arguments inside
+To be safe, don't use the vmode changing methods without arguments inside
 methods, instead set the visibility explicitly (e.g. @private :a@).
 
 

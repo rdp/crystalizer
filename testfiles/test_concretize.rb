@@ -2,47 +2,71 @@ require File.dirname(__FILE__) + '/test_bootstrap'
 include Ruby2CExtension
 
 class A
- def go a
-   23
- end
+  def go a
+    23
+  end
 end
 
-Dir['temp*'].each{|f| File.delete f}
 
-raise unless  A.instance_method(:go).arity == 1
-rb = Concretize.c_ify! A, :go, true
-raise "bad rb" unless rb.include? "23"
-raise "bad rb" unless rb.include? "class"
+at_exit {
+  if false #$!
+    puts "==== "
+    puts $!.backtrace.join("\n")
+    puts "===="
+  end
+}
 
-c = Concretize.c_ify! A, :go, false, true
-raise "bad c" unless c.include? "23"
-raise "bad c" unless c.include? "VALUE"
+Dir['temp*'].each{|f| File.delete f} rescue nil # LTODO these don't all delete right at the end...can I avoid that tho?
 
-c = Concretize.c_ify! A, :go
+begin
+  raise unless  A.instance_method(:go).arity == 1
+  rb = Concretize.c_ify! A, :go, true
+  raise "bad rb" unless rb.include? "23"
+  raise "bad rb" unless rb.include? "class"
 
-raise "should have concretized" unless A.instance_method(:go).arity == -1
+  c = Concretize.c_ify! A, :go, false, true
+  raise "bad c" unless c.include? "23"
+  raise "bad c" unless c.include? "VALUE"
 
-# test: class with one ruby, one C should translate the ruby to C
+  c = Concretize.c_ify! A, :go
 
-class B
- def go a
-  32
- end
+  raise "should have concretized" unless A.instance_method(:go).arity == -1
+
+  # test: class with one ruby, one C should translate the ruby to C
+
+  class B
+    def go a
+      32
+    end
+  end
+
+  assert B.instance_method(:go).arity == 1
+  #require '_dbg'
+  Concretize.c_ify_class! B
+  assert B.instance_method(:go).arity == -1
+
+  class C
+    def go a
+      33
+    end
+  end
+
+
+  class D
+    def go a, b
+      34
+    end
+  end
+  assert D.instance_method(:go).arity == 2
+  D.concretize!
+  assert D.instance_method(:go).arity == -1
+
+  D.new.go 3, 4 # shouldn't blow! LTODO what was that old way...
+
+  assert C.instance_method(:go).arity == 1
+  puts Concretize.concretize_all!
+  assert C.instance_method(:go).arity == -1
+ensure
+  #Dir['temp*'].each{|f| File.delete f} rescue nil # LTODO these don't all delete right...
 end
-
-assert B.instance_method(:go).arity == 1
-Concretize.c_ify_class! B
-assert B.instance_method(:go).arity == 1
-
-
-class C
- def go a
-   33
- end
-end
-
-assert C.instance_method(:go).arity == 1
-Concretize.concretize!
-assert C.instance_method(:go).arity == 1
-
-puts 'success'
+puts 'overall concretize success'

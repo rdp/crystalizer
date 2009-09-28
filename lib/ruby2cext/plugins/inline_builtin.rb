@@ -1,4 +1,5 @@
-
+# this one inlines things like [].empty? -- no ruby calls it's all in C
+# builtin_methods does some more...
 require "ruby2cext/error"
 require "ruby2cext/plugin"
 require "ruby2cext/plugins/util"
@@ -796,5 +797,4 @@ class InlineBuiltin < Ruby2CExtension::Plugin
 end
 
 end
-
 
