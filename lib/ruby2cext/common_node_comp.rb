@@ -1,10 +1,4 @@
 
-require "ruby2cext/str_to_c_strlit"
-require "ruby2cext/error"
-require "ruby2cext/tools"
-require "ruby2cext/scopes"
-require "ruby2cext/version"
-
 module Ruby2CExtension
 
 	module CommonNodeComp

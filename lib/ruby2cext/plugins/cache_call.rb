@@ -12,10 +12,6 @@
 # which...might be faster?
 # TODOR make the order matter
 
-require "ruby2cext/error"
-require "ruby2cext/plugin"
-require "ruby2cext/plugins/util"
-
 module Ruby2CExtension::Plugins
 
 class CacheCall < Ruby2CExtension::Plugin

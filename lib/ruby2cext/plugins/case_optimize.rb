@@ -1,7 +1,4 @@
 
-require "ruby2cext/plugin"
-require "ruby2cext/tools"
-
 module Ruby2CExtension::Plugins
 
 	class CaseOptimize < Ruby2CExtension::Plugin

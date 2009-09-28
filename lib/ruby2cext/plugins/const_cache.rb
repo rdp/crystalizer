@@ -1,6 +1,4 @@
 
-require "ruby2cext/plugin"
-
 module Ruby2CExtension::Plugins
 
 	class ConstCache < Ruby2CExtension::Plugin

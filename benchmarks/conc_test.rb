@@ -1,7 +1,16 @@
+require 'rubygems'
 require 'benchmark'
-require 'frubygems'
+require '../lib/concretizer'
 
-require 'concretizer'
+
+at_exit {
+  if false #$!
+    puts "==== "
+    puts $!.backtrace.join("\n")
+    puts "===="
+  end
+}
+
 
 class A
  def go
@@ -12,6 +21,6 @@ class A
 end
 
 a = A.new
-puts Benchmark.realtime { 1000000.times { a.go }}
+puts Benchmark.realtime { 4000000.times { a.go }}
 puts Benchmark.realtime { Ruby2CExtension::Concretize.concretize_all! }
-puts Benchmark.realtime { 1000000.times { a.go }}
+puts Benchmark.realtime { 4000000.times { a.go }}

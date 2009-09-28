@@ -2,9 +2,6 @@
 # @a = 3
 # @b = 4
 # by doing the lookups locally, in C, instead of having ruby do it for us by a rb_ivar_set call.
-require "ruby2cext/error"
-require "ruby2cext/plugin"
-require "ruby2cext/plugins/util"
 
 module Ruby2CExtension::Plugins
 

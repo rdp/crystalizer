@@ -1,6 +1,4 @@
 
-require "ruby2cext/plugin"
-
 module Ruby2CExtension::Plugins
 
 	class RequireInclude < Ruby2CExtension::Plugin

@@ -1,9 +1,6 @@
 # appears to only optimize calls
 # to self that have no parameters?
 # or possibly matching parameters?
-require "ruby2cext/error"
-require "ruby2cext/plugin"
-require "ruby2cext/plugins/util"
 
 module Ruby2CExtension::Plugins
 

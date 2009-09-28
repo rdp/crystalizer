@@ -12,5 +12,5 @@ spec = Gem::Specification.new do |s|
 		%w[README Changelog]
 	s.executables << "rb2cx"
 	s.add_dependency("rubynode", ">= 0.1.1")
-	s.required_ruby_version = '~> 1.8.4'
+	s.add_dependency("rogerdpack-sane")
 end

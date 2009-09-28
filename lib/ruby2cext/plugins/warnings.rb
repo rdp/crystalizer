@@ -1,6 +1,4 @@
 
-require "ruby2cext/plugin"
-
 module Ruby2CExtension::Plugins
 
 	# TODO: Module.nesting, Module.constants, Kernel#autoload and Kernel#autoload?

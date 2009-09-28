@@ -1,18 +1,10 @@
 
 require "rubynode"
 require "rbconfig"
-require "ruby2cext/parser"
-require "ruby2cext/error"
-require "ruby2cext/tools"
-require "ruby2cext/c_function"
-require "ruby2cext/version"
-require "ruby2cext/concretize"
-
-# preload plugins, too, so we can access some variables of theirs...
-# ltodo this doesn't hurt anything, does it?
-for file in Dir[File.dirname(__FILE__) + '/plugins/*.rb'] do
-  require file
-end
+require 'sane'
+require 'logger'
+require_rel '.' 
+require_rel 'plugins' 
 
 module Ruby2CExtension
 
@@ -196,7 +188,6 @@ module Ruby2CExtension
 
     def add_plugins(options)
       if options[:warnings]
-        require "ruby2cext/plugins/warnings"
         add_plugin(Plugins::Warnings)
       end
       if (opt = options[:optimizations])
@@ -205,7 +196,7 @@ module Ruby2CExtension
             :const_cache=>true,
             :case_optimize=>true,
             :direct_self_call=>true,
-            :inline_builtin=>true,
+           # :inline_builtin=>true, # causes a bug [just itself, too]
             :cache_call=>true,
             :builtin_methods=>true,
             :inline_methods=>true,
@@ -213,32 +204,25 @@ module Ruby2CExtension
           }
         end
         if opt[:const_cache]
-          require "ruby2cext/plugins/const_cache"
           add_plugin(Plugins::ConstCache)
         end
         if opt[:case_optimize]
-          require "ruby2cext/plugins/case_optimize"
           add_plugin(Plugins::CaseOptimize)
         end
         if opt[:direct_self_call]
-          require "ruby2cext/plugins/direct_self_call"
           add_plugin(Plugins::DirectSelfCall)
         end
         if opt[:inline_builtin]
-          require "ruby2cext/plugins/inline_builtin"
           add_plugin(Plugins::InlineBuiltin)
         end
         if opt[:inline_methods]
           puts 'requiring inline'
-          require "ruby2cext/plugins/inline_methods"
           add_plugin(Plugins::InlineMethods)
         end
         if opt[:cache_call]
-          require "ruby2cext/plugins/cache_call"
           add_plugin(Plugins::CacheCall)
         end
         if (builtins = opt[:builtin_methods])
-          require "ruby2cext/plugins/builtin_methods"
           if Array === builtins
             builtins = builtins.map { |b| b.to_s.to_sym } # allow symbols, strings and the actual classes to work
           else
@@ -247,12 +231,10 @@ module Ruby2CExtension
           add_plugin(Plugins::BuiltinMethods, builtins)
         end
         if opt[:ivar_cache]
-          require "ruby2cext/plugins/ivar_cache"
           add_plugin(Plugins::IVarCache)
         end
       end
       if (ri_args = options[:require_include])
-        require "ruby2cext/plugins/require_include"
         unless Array === ri_args.first
           ri_args = [ri_args] # to allow just an array of include paths to also work
         end
@@ -288,7 +270,7 @@ module Ruby2CExtension
     def preprocessors_for(node_type)
       @preprocessors[node_type]
     end
-require 'popen4'
+
     conf = ::Config::CONFIG
     cflags = [conf["CCDLFLAGS"], conf["CFLAGS"], conf["ARCH_FLAG"]].join(" ")
     COMPILE_COMMAND = "#{conf["LDSHARED"]} #{cflags} -I . -I #{conf["archdir"]} " # added -c

@@ -1,7 +1,4 @@
 
-require "ruby2cext/error"
-require "ruby2cext/plugin"
-
 module Ruby2CExtension::Plugins
 
 	class BuiltinMethods < Ruby2CExtension::Plugin

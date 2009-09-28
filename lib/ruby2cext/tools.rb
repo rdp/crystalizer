@@ -1,7 +1,4 @@
 
-require "ruby2cext/str_to_c_strlit"
-require "ruby2cext/error"
-
 module Ruby2CExtension
 
 	module Tools

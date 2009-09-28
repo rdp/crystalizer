@@ -1,9 +1,6 @@
 
 require "rubynode"
 require "digest/sha1"
-require "ruby2cext/compiler"
-require "ruby2cext/error"
-require "ruby2cext/version"
 
 module Ruby2CExtension
 

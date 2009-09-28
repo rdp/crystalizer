@@ -1,6 +1,4 @@
 
-require "ruby2cext/error"
-
 module Ruby2CExtension
 
 	module Scopes
