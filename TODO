@@ -1,1 +1,7 @@
 test if :all is better than :built_in or whatever it is...hmm...hmm...
+
+make gem work on coiso
+
+benchmark it against 1.9, etc.
+
+make it work on linux [?]
