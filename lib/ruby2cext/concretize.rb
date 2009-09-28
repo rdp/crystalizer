@@ -8,7 +8,7 @@ module Ruby2CExtension
 	class Concretize
 	  @@count = 0
 	  @@mutex = Mutex.new
-	  def Concretize.c_ify! klass, method_name = nil, want_just_rb = false, want_just_c = false
+	  def Concretize.c_ify! klass, method_name, want_just_rb = false, want_just_c = false
 	    count = @@mutex.synchronize { @@count += 1 }
 	    rb = "temp_#{count}.rb"
 	    File.open(rb, 'w')  do |out|
@@ -29,6 +29,25 @@ module Ruby2CExtension
       puts 'requiring', so_file
       # LTODO make it multi process friendly
       require so_file # load-er up
+	  end
+	  
+	  # pass in a class name instnace
+	  # like c_ify_class! ClassName
+	  # currently only cifys the singleton methods...
+	  def Concretize.c_ify_class! klass
+      
+	    for method_name in klass.singleton_methods
+	      source = Ruby2Ruby.new.process( ParseTree.translate(klass, method_name) ) rescue nil
+	      if(source != nil) 
+	        puts 'cifying', klass, method_name
+	        Concretize.c_ify! klass, method_name
+	      end
+	    end
+	    
+	  end
+	  
+	  def Concretize.concretize!
+  	    ObjectSpace.each_object(Class) {|c| Concretize.c_ify_class! c }
 	  end
 	end
 	

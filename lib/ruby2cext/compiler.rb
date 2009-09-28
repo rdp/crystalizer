@@ -284,11 +284,12 @@ module Ruby2CExtension
 
     conf = ::Config::CONFIG
     cflags = [conf["CCDLFLAGS"], conf["CFLAGS"], conf["ARCH_FLAG"]].join(" ")
-    COMPILE_COMMAND = "#{conf["LDSHARED"]} #{cflags} -I . -I #{conf["archdir"]} -c" # added -c
+    COMPILE_COMMAND = "#{conf["LDSHARED"]} #{cflags} -I . -I #{conf["archdir"]} " # added -c
     DLEXT = conf["DLEXT"]
 
     # compiles a C file using the compiler from rbconfig
     def self.compile_c_file_to_dllib(c_file_name, logger = nil)
+      conf = ::Config::CONFIG
       unless c_file_name =~ /\.c\z/
         raise Ruby2CExtError, "#{c_file_name} is no C file"
       end
@@ -296,6 +297,10 @@ module Ruby2CExtension
       cmd = "#{COMPILE_COMMAND} -o #{dl_name} #{c_file_name}"
       if RUBY_PLATFORM =~ /mswin32/
         cmd << " -link /INCREMENTAL:no /EXPORT:Init_#{File.basename(c_file_name, ".c")}"
+      end
+      if RUBY_PLATFORM =~ /mingw/
+        cmd << " #{ conf['DLDFLAGS'] } #{ conf['SOLIBS'] }  "
+        cmd << " -L#{ conf['libdir'] } #{ conf["LIBRUBYARG_SHARED"] } "
       end
       logger.info(cmd) if logger
       unless system(cmd) # run it
