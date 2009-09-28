@@ -289,15 +289,7 @@ module Ruby2CExtension
 					handle_method_args(arg, ba)
 					l "return #{comp([:block, block_array])};"
 				}
-				begin
-				  body = "#{cf.init_c_code}\n#{cf.get_lines}"
-				  rescue Exception => e
-				     3
-				     require '_dbg'
-				     3
-				     raise e
-				  
-				  end
+				body = "#{cf.init_c_code}\n#{cf.get_lines}"
 				sig = "static VALUE FUNNAME(int meth_argc, VALUE *meth_argv, VALUE self) {"
 				fname = cf.compiler.add_fun("#{sig}\n#{body}\n}", "method")
 				if cf.need_cref

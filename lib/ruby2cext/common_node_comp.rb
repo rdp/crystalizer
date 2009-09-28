@@ -1043,8 +1043,7 @@ module Ruby2CExtension
 					l "rb_const_set(#{get_cbase}, #{sym(hash[:vid])}, val);"
 				else
 				  out = make_class_prefix(hash[:else])
-				  require '_dbg' if out.nil? or out == ''
-					l "rb_const_set(#{out}, #{sym(hash[:else].last[:mid])}, val);"
+				  l "rb_const_set(#{out}, #{sym(hash[:else].last[:mid])}, val);"
 				end
 				"val"
 			}
@@ -1326,7 +1325,6 @@ module Ruby2CExtension
 			c_scope_res {
 				l "VALUE prefix, tmp_module;"
 				out = make_class_prefix(hash[:cpath])
-				require '_dbg' if out.nil? or out == '' or out == '('
 				l "prefix = #{out};"
 				l "tmp_module = module_prep(prefix, #{sym(hash[:cpath].last[:mid])});"
 				CFunction::ClassModuleScope.compile(self, hash[:body], "tmp_module", false)

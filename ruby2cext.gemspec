@@ -1,6 +1,8 @@
 spec = Gem::Specification.new do |s|
 	s.name = "ruby2cext"
-	s.version = "0.2.0.1"
+	s.version = "0.2.0.2"
+        # 0.2.0.
+        #       2 actually works with concretize now
 	s.author = "Dominik Bathon"
 	s.email = "dbatml@gmx.de"
 	s.homepage = "http://ruby2cext.rubyforge.org/"

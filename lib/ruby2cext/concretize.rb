@@ -74,8 +74,7 @@ module Ruby2CExtension
 	      }
   	    puts "BEGIN ALL.RB", ruby, "END"
   	    File.write 'all.rb', ruby
-  	    require '_dbg'
-        Concretize.compile('all.rb', false)
+            Concretize.compile('all.rb', false)
   	    all
 	  end
 	end

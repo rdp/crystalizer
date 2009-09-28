@@ -41,7 +41,6 @@ begin
   end
 
   assert B.instance_method(:go).arity == 1
-  #require '_dbg'
   Concretize.c_ify_class! B
   assert B.instance_method(:go).arity == -1
 
