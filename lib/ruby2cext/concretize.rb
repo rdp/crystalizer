@@ -19,7 +19,7 @@ module Ruby2CExtension
   	   if(want_just_rb)
   	      return File.read(rb)
   	   end
-      Compiler.compile_file(rb, {}, [], false, Logger.new( STDOUT ) )
+      Compiler.compile_file(rb, {:optimizations => :all}, [], false, Logger.new( STDOUT ) )
       c_file = rb[0..-4] + '.c'
       so_file = rb[0..-4] + '.so'
 

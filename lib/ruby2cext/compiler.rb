@@ -223,6 +223,7 @@ module Ruby2CExtension
           add_plugin(Plugins::InlineBuiltin)
         end
         if opt[:inline_methods]
+          puts 'requiring inline'
           require "ruby2cext/plugins/inline_methods"
           add_plugin(Plugins::InlineMethods)
         end
