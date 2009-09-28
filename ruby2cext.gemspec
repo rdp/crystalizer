@@ -10,8 +10,9 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dominik Bathon, rogerdpack"]
   s.date = %q{2009-09-28}
+  s.default_executable = %q{rb2cx}
   s.email = %q{dbatml@gmx.de}
-  s.executables = ["extconf.rb", "extconf.rb~", "go.c", "go.c.orig", "go.o", "go.rb", "go.rb~", "go.so", "Makefile", "rb2cx"]
+  s.executables = ["rb2cx"]
   s.extra_rdoc_files = [
     "Changelog",
      "README"
@@ -19,13 +20,6 @@ Gem::Specification.new do |s|
   s.files = [
     "Changelog",
      "README",
-     "bin/Makefile",
-     "bin/extconf.rb",
-     "bin/go.c",
-     "bin/go.c.orig",
-     "bin/go.o",
-     "bin/go.rb",
-     "bin/go.so",
      "bin/rb2cx",
      "doc/style.css",
      "lib/concretizer.rb",
