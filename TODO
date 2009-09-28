@@ -1,24 +1,11 @@
-test if :all is better than :built_in or whatever it is...hmm...hmm...
-
-make gem work on coiso
-
 benchmark it against 1.9, etc.
 
-make it work on linux [?]
+make sure it works in linux [should pass tests]
 
-can it run rails? do I need to avoid binding/eval methods? benchmarks on rails?
+can it run rails? do I need to avoid binding/eval methods etc? 
 
-it blows chunks?
+benchmarks on rails?
 
-it misses a method from IRB:
+fix inline_builtin [meh]
 
-c:\installs\emacs-22.3\bin\emacs c:/ruby18/lib/ruby/1.8/irb/context.rb:219
-
-    def evaluate(line, line_no)
-      @line_no = line_no
-      set_last_value(@workspace.evaluate(self, line, irb_path, line_no))
-#      @workspace.evaluate("_ = IRB.conf[:MAIN_CONTEXT]._")
-#      @_ = @workspace.evaluate(line, irb_path, line_no)
-    end
-
-
+make it compile faster [possibilities: fork, can methods compare to those we know are C-y?]

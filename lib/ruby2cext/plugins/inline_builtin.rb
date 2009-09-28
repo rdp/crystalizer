@@ -1,5 +1,6 @@
 # this one inlines things like [].empty? -- no ruby calls it's all in C
 # builtin_methods does some more...
+# broken currently
 module Ruby2CExtension::Plugins
 
 class InlineBuiltin < Ruby2CExtension::Plugin
