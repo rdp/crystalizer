@@ -1,4 +1,4 @@
-
+puts 'tools!'
 module Ruby2CExtension
 
 	module Tools
