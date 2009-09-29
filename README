@@ -43,7 +43,9 @@ Please see doc/index.html for more documentation.
 The original translator has been retrofitted to include a runtime compiler, i.e.
 
 require 'concretizer'
-Ruby2CExtension::Concretize.concretize_all! # takes about a minute--maybe more--after this point all previously existing classes' methods will have been condensed down to their speedier C equivalents.
+Ruby2CExtension::Concretize.concretize_all!  # optimizes existing classes
+
+# takes about a minute--maybe more--after this point all previously existing classes' methods will have been condensed down to their speedier C equivalents.
 
 
 License

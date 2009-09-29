@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby2cext}
-  s.version = "0.0.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dominik Bathon, rogerdpack"]
@@ -45,21 +45,23 @@ Gem::Specification.new do |s|
      "lib/ruby2cext/scopes.rb",
      "lib/ruby2cext/str_to_c_strlit.rb",
      "lib/ruby2cext/tools.rb",
-     "lib/ruby2cext/version.rb",
-     "testfiles/causes_crash_all_opts.rb",
-     "testfiles/eval2c/test_eval2c.rb",
-     "testfiles/test_all.rb",
-     "testfiles/test_bootstrap.rb",
-     "testfiles/test_concretize.rb",
-     "testfiles/test_files/test.rb",
-     "testfiles/test_files/vmode_test.rb",
-     "testfiles/test_files/warn_test.rb"
+     "lib/ruby2cext/version.rb"
   ]
   s.homepage = %q{http://ruby2cext.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Ruby2CExtension is a Ruby to C extension translator/compiler.}
+  s.test_files = [
+    "test/causes_crash_all_opts.rb",
+     "test/eval2c/test_eval2c.rb",
+     "test/test_all.rb",
+     "test/test_bootstrap.rb",
+     "test/test_concretize.rb",
+     "test/test_files/test.rb",
+     "test/test_files/vmode_test.rb",
+     "test/test_files/warn_test.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

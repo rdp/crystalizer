@@ -2,7 +2,6 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
 	s.name = "ruby2cext"
-	s.version = "0.2.0.2"
         # 0.2.0.
         #       2 actually works with concretize now
 	s.author = "Dominik Bathon, rogerdpack"
