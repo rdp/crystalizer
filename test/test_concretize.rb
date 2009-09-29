@@ -51,16 +51,16 @@ begin
   end
 
 
-  class D
+  class DD
     def go a, b
       34
     end
   end
-  assert D.instance_method(:go).arity == 2
-  D.concretize!
-  assert D.instance_method(:go).arity == -1
+  assert DD.instance_method(:go).arity == 2
+  DD.concretize!
+  assert DD.instance_method(:go).arity == -1
 
-  D.new.go 3, 4 # shouldn't blow! LTODO what was that old way...
+  DD.new.go 3, 4 # shouldn't blow! LTODO what was that old way...
 
   assert C.instance_method(:go).arity == 1
   puts Concretize.concretize_all!
