@@ -15,9 +15,9 @@ for file_name in Dir[dir + '/test_files/*.rb']
   raise unless out
 end
 
-Compiler.compile_file('test_files/test.rb', plugins = {}, 
+Compiler.compile_file(dir + '/test_files/test.rb', plugins = {}, 
         include_paths = [], only_c = false, logger)
-require 'test_files/test.so'
+require dir + '/test_files/test.so'
 raise "non worky" unless defined?(AliasTest) # should have loaded it in
 
 require dir + '/test_concretize' # run this test, too
