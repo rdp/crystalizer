@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dominik Bathon, rogerdpack"]
-  s.date = %q{2009-09-28}
+  s.date = %q{2009-09-29}
   s.default_executable = %q{rb2cx}
   s.email = %q{dbatml@gmx.de}
   s.executables = ["rb2cx"]
@@ -52,12 +52,8 @@ Gem::Specification.new do |s|
      "testfiles/test_all.rb",
      "testfiles/test_bootstrap.rb",
      "testfiles/test_concretize.rb",
-     "testfiles/test_files/test.c",
      "testfiles/test_files/test.rb",
-     "testfiles/test_files/test.so",
-     "testfiles/test_files/vmode_test.c",
      "testfiles/test_files/vmode_test.rb",
-     "testfiles/test_files/warn_test.c",
      "testfiles/test_files/warn_test.rb"
   ]
   s.homepage = %q{http://ruby2cext.rubyforge.org/}
