@@ -46,7 +46,6 @@ Gem::Specification.new do |s|
      "lib/ruby2cext/str_to_c_strlit.rb",
      "lib/ruby2cext/tools.rb",
      "lib/ruby2cext/version.rb",
-     "testfiles/Makefile",
      "testfiles/causes_crash_all_opts.rb",
      "testfiles/eval2c/test_eval2c.rb",
      "testfiles/test_all.rb",
