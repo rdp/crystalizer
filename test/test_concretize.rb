@@ -67,7 +67,6 @@ module M; def go_m a; end; end
 class IM; include M; end;
   IM.new.go_m 2
   assert IM.instance_method(:go_m).arity == 1
-  _dbg
   IM.concretize!
   assert IM.instance_method(:go_m).arity == -1
   

@@ -80,10 +80,10 @@ module Ruby2CExtension
           end
         end
 
-        print klass.to_s + " has "
+        print ancestor.to_s + " has "
         if(!success)
           print "no "
-          @@all_c[klass] = true
+          @@all_c[ancestor] = true
         end
         puts "ruby methods"
         anything ||= success
