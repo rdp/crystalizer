@@ -30,10 +30,9 @@ module Ruby2CExtension
 			def add_helper(str); compiler.add_helper(str); end
 
 			def get_lines
-                                puts @lines
-                                puts @lines.class
 				@lines.join("\n")
 			end
+			
 			def l(line) # add_line
 				# ignore lines with only whitespace or only alnum chars (variable name)
 				unless line =~ /\A\s*\z/ || (line =~ /\A(\w*);?\z/ && !(%w[break continue].include? $1))
@@ -105,6 +104,7 @@ module Ruby2CExtension
 			def return_allowed?
 				false
 			end
+			
 			def comp_return(hash)
 				raise Ruby2CExtError::NotSupported, "return is not supported here"
 			end

@@ -216,7 +216,6 @@ module Ruby2CExtension
           add_plugin(Plugins::InlineBuiltin)
         end
         if opt[:inline_methods]
-          puts 'requiring inline'
           add_plugin(Plugins::InlineMethods)
         end
         if opt[:cache_call]

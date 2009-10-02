@@ -34,9 +34,10 @@ module Ruby2CExtension
 	   File.open(rb, 'w')  do |out|
   	   out.write( code )
   	  end
-  	  return Concretize.compile(rb, want_just_c)
+  	  return Concretize.compile(rb, want_just_c) rescue nil # might not be compatible here
   	end
-  	 
+  	
+  	private
   	def Concretize.compile(rb, want_just_c)
       Compiler.compile_file(rb, {:optimizations => :all}, [], false, Logger.new( STDOUT ) )
       c_file = rb[0..-4] + '.c'
@@ -48,7 +49,8 @@ module Ruby2CExtension
       # LTODO make it multi process friendly, too :)
       require so_file
 	  end
-	  
+	  public
+	  @@all_c = {}
 	  # pass in a class name instnace
 	  # like c_ify_class! ClassName
 	  # currently only cifys the singleton methods...
@@ -57,8 +59,15 @@ module Ruby2CExtension
        # TODO test that this actually does something to the C code :)
        success = false
        # LTODO class methods, singleton methods...sure! :)
-	    for method_name in klass.instance_methods
-	         if(!add_to_string)
+       for klass in klass.ancestors
+         if @@all_c[klass] # TODO test: if two descend from c_klass normal c_klass they both get all of normal's       
+           puts 'ignoring cached', klass
+           next
+         end
+        # TODO I think we might get the inheritance wrong if two ancestors define the same method
+        # TODO take out private checks [but make things the right way in our C code ?]
+  	      for method_name in klass.instance_methods(false)
+	        if(!add_to_string)
   	        success ||= Concretize.c_ify! klass, method_name
   	       else
   	        string = Concretize.c_ify!(klass, method_name, true)
@@ -67,10 +76,16 @@ module Ruby2CExtension
     	        success = true
     	      end
   	       end
-  	   end
+  	      end
+  	   end  
+  	     
+  	   print klass.to_s + " has " 
 	    if(!success)
-	      puts klass.to_s + " has no pure ruby methods"
+	      print "no "
+	      @@all_c[klass] = true
 	    end
+	    puts "ruby methods"
+	    
 	    return success
 	  end
 	  
@@ -78,14 +93,10 @@ module Ruby2CExtension
 	  # deemed unstable as of yet :(
 	  def Concretize.concretize_all!
     	  all = []
-    	  ruby = ''
   	    ObjectSpace.each_object(Class) {|c| 
-  	      worked = Concretize.c_ify_class!(c, ruby)
+  	      worked = Concretize.c_ify_class!(c)
   	      all << c if worked 
 	      }
-  	    puts "BEGIN ALL.RB", ruby, "END"
-  	    File.write 'all.rb', ruby
-            Concretize.compile('all.rb', false)
   	    all
 	  end
 	end
