@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dominik Bathon, rogerdpack"]
-  s.date = %q{2009-09-29}
+  s.date = %q{2009-10-02}
   s.default_executable = %q{rb2cx}
   s.email = %q{dbatml@gmx.de}
   s.executables = ["rb2cx"]
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "bin/rb2cx",
      "doc/style.css",
      "lib/concretizer.rb",
+     "lib/non_git.rb",
      "lib/ruby2cext/c_function.rb",
      "lib/ruby2cext/common_node_comp.rb",
      "lib/ruby2cext/compiler.rb",
@@ -45,7 +46,14 @@ Gem::Specification.new do |s|
      "lib/ruby2cext/scopes.rb",
      "lib/ruby2cext/str_to_c_strlit.rb",
      "lib/ruby2cext/tools.rb",
-     "lib/ruby2cext/version.rb"
+     "lib/ruby2cext/version.rb",
+     "lib/temp_32.c",
+     "lib/temp_32.rb",
+     "lib/temp_32.so",
+     "lib/temp_64.c",
+     "lib/temp_64.c.orig",
+     "lib/temp_64.rb",
+     "lib/temp_64.so"
   ]
   s.homepage = %q{http://ruby2cext.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -53,14 +61,20 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Ruby2CExtension is a Ruby to C extension translator/compiler.}
   s.test_files = [
-    "test/causes_crash_all_opts.rb",
+    "test/all.rb",
+     "test/causes_crash_all_opts.rb",
      "test/eval2c/test_eval2c.rb",
+     "test/temp_2.rb",
+     "test/temp_3.rb",
+     "test/temp_47.rb",
+     "test/temp_91.rb",
      "test/test_all.rb",
      "test/test_bootstrap.rb",
      "test/test_concretize.rb",
      "test/test_files/test.rb",
      "test/test_files/vmode_test.rb",
-     "test/test_files/warn_test.rb"
+     "test/test_files/warn_test.rb",
+     "test/unknown.rb"
   ]
 
   if s.respond_to? :specification_version then

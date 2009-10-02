@@ -9,7 +9,7 @@ end
 
 
 at_exit {
-  if false #$!
+  if $!
     puts "==== "
     puts $!.backtrace.join("\n")
     puts "===="

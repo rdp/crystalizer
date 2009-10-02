@@ -195,7 +195,7 @@ module Ruby2CExtension
           opt = {
             :const_cache=>true,
             :case_optimize=>true,
-            :direct_self_call=>true,
+           # :direct_self_call=>true, # also buggy...
            # :inline_builtin=>true, # causes a bug [just itself, too]
             :cache_call=>true,
             :builtin_methods=>true,
