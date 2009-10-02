@@ -62,6 +62,16 @@ begin
 
   DD.new.go 3, 4 # shouldn't blow! LTODO what was that old way...
 
+
+module M; def go_m a; end; end
+class IM; include M; end;
+  IM.new.go_m 2
+  assert IM.instance_method(:go_m).arity == 1
+  _dbg
+  IM.concretize!
+  assert IM.instance_method(:go_m).arity == -1
+  
+
   assert C.instance_method(:go).arity == 1
   puts Concretize.concretize_all!
   assert C.instance_method(:go).arity == -1
