@@ -14,8 +14,7 @@ Gem::Specification.new do |s|
   s.email = %q{dbatml@gmx.de}
   s.executables = ["rb2cx"]
   s.extra_rdoc_files = [
-    "Changelog",
-     "README"
+    "README"
   ]
   s.files = [
     "Changelog",
@@ -46,14 +45,7 @@ Gem::Specification.new do |s|
      "lib/ruby2cext/scopes.rb",
      "lib/ruby2cext/str_to_c_strlit.rb",
      "lib/ruby2cext/tools.rb",
-     "lib/ruby2cext/version.rb",
-     "lib/temp_32.c",
-     "lib/temp_32.rb",
-     "lib/temp_32.so",
-     "lib/temp_64.c",
-     "lib/temp_64.c.orig",
-     "lib/temp_64.rb",
-     "lib/temp_64.so"
+     "lib/ruby2cext/version.rb"
   ]
   s.homepage = %q{http://ruby2cext.rubyforge.org/}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -61,20 +53,15 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Ruby2CExtension is a Ruby to C extension translator/compiler.}
   s.test_files = [
-    "test/all.rb",
-     "test/causes_crash_all_opts.rb",
+    "test/causes_crash_all_opts.rb",
      "test/eval2c/test_eval2c.rb",
-     "test/temp_2.rb",
-     "test/temp_3.rb",
-     "test/temp_47.rb",
-     "test/temp_91.rb",
      "test/test_all.rb",
      "test/test_bootstrap.rb",
      "test/test_concretize.rb",
      "test/test_files/test.rb",
      "test/test_files/vmode_test.rb",
      "test/test_files/warn_test.rb",
-     "test/unknown.rb"
+     "test/bt.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -84,12 +71,15 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rubynode>, [">= 0.1.1"])
       s.add_runtime_dependency(%q<rogerdpack-sane>, [">= 0"])
+      s.add_runtime_dependency(%q<backports>, [">= 0"])
     else
       s.add_dependency(%q<rubynode>, [">= 0.1.1"])
       s.add_dependency(%q<rogerdpack-sane>, [">= 0"])
+      s.add_dependency(%q<backports>, [">= 0"])
     end
   else
     s.add_dependency(%q<rubynode>, [">= 0.1.1"])
     s.add_dependency(%q<rogerdpack-sane>, [">= 0"])
+    s.add_dependency(%q<backports>, [">= 0"])
   end
 end

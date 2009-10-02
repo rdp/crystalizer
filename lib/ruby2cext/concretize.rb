@@ -2,7 +2,7 @@ require 'rubygems'
 require 'ruby2ruby'
 require 'parse_tree'
 require 'thread'
-
+require 'backports'
 # LTODO singleton methods, class methods, [procs?]
 
 module Ruby2CExtension
@@ -11,6 +11,7 @@ module Ruby2CExtension
     @@count = 0
     @@mutex = Mutex.new
     def Concretize.c_ify! klass, method_name, want_just_rb = false, want_just_c = false
+      return if klass.to_s.start_with? '#<Class'
       count = @@mutex.synchronize { @@count += 1 }
       rb = "temp_#{count}.rb"
       code = Ruby2Ruby.new.process( ParseTree.new.process( ParseTree.new.parse_tree_for_method(klass, method_name)) ) rescue nil
@@ -32,6 +33,7 @@ module Ruby2CExtension
       if(want_just_rb)
         return code
       end
+      puts code # TODO use logger :)
       File.open(rb, 'w')  do |out|
         out.write( code )
       end
@@ -51,7 +53,7 @@ module Ruby2CExtension
       require so_file
     end
     public
-    @@all_c = {}
+    @@already_done = {}
     # pass in a class name instnace
     # like c_ify_class! ClassName
     # currently only cifys the singleton methods...
@@ -61,8 +63,8 @@ module Ruby2CExtension
       # LTODO class methods, singleton methods...sure! :)
       anything = false
       for ancestor in klass.ancestors
-        if @@all_c[ancestor] # TODO test: if two descend from c_klass normal c_klass they both get all of normal's
-          puts 'ignoring cached', ancestor
+        if @@already_done[ancestor] # TODO test: if two descend from c_klass normal c_klass they both get all of normal's
+          #println 'ignoring cached', ancestor
           next
         end
         success = false
@@ -83,8 +85,8 @@ module Ruby2CExtension
         print ancestor.to_s + " has "
         if(!success)
           print "no "
-          @@all_c[ancestor] = true
         end
+        @@already_done[ancestor] = true
         puts "ruby methods"
         anything ||= success
 
@@ -113,4 +115,10 @@ class Class
   def concretize!
     Concretize.c_ify_class! self
   end
+end
+
+class Object
+ def concretize_ruby!
+   Ruby2CExtension::Concretize.concretize_all!
+ end
 end

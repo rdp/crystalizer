@@ -1,6 +1,6 @@
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |s|
+ spec = Gem::Specification.new do |s|
 	s.name = "ruby2cext"
         # 0.2.0.
         #       2 actually works with concretize now
@@ -13,9 +13,12 @@ begin
 		Dir.glob("doc/*.{html,css}").delete_if { |item| item.include?(".svn") } +
 		%w[README Changelog]
 	s.add_dependency("rubynode", ">= 0.1.1")
-	s.add_dependency("rogerdpack-sane")
+	s.add_dependency("rogerdpack-sane") # LTODO is this just a dev. dependency though?
+	s.add_dependency("backports")
 
   end
+  Jeweler::Tasks.new(spec)
+
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end

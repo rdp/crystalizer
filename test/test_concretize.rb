@@ -7,6 +7,10 @@ class A
   end
 end
 
+require 'benchmark'
+a = A.new
+start_time = Benchmark.realtime { 1000000.times { a.go 3 }}
+
 
 at_exit {
   if $!
@@ -74,6 +78,9 @@ class IM; include M; end;
   assert C.instance_method(:go).arity == 1
   puts Concretize.concretize_all!
   assert C.instance_method(:go).arity == -1
+  a = A.new
+  optimized_time = Benchmark.realtime { 1000000.times { a.go 3 }}
+  puts 'started as', start_time, 'optimized as', optimized_time
 ensure
   #Dir['temp*'].each{|f| File.delete f} rescue nil # LTODO these don't all delete right...
 end
