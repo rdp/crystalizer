@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/test_bootstrap'
-
+require 'assert2'
 
 class F
   def go; end
@@ -8,12 +8,6 @@ F.concretize! # make sure we can
 assert F.instance_method(:go).arity == -1
 
 include Ruby2CExtension
-
-class A
-  def go a
-    23
-  end
-end
 # TODO retain visibility right
 at_exit {
   if $!
@@ -25,17 +19,22 @@ at_exit {
 
 Dir['temp*'].each{|f| File.delete f} rescue nil # LTODO these don't all delete right at the end...can I avoid that tho?
 
+
+
+class A
+  def go a
+    23
+  end
+end
+
+# make sure it gets the guts of a method
 raise unless  A.instance_method(:go).arity == 1
 rb = Concretize.c_ify! A, :go, true
 raise "bad rb" unless rb.include? "23"
 raise "bad rb" unless rb.include? "class"
 
-c = Concretize.c_ify! A, :go, false, true
-raise "bad c" unless c.include? "23"
-raise "bad c" unless c.include? "VALUE"
 
-c = Concretize.c_ify! A, :go
-
+rb = Concretize.c_ify! A, :go
 raise "should have concretized" unless A.instance_method(:go).arity == -1
 
 # test: class with one ruby, one C should translate the ruby to C
@@ -47,8 +46,14 @@ class B
 end
 
 assert B.instance_method(:go).arity == 1
-Concretize.c_ify_class! B
+
+assert Concretize.c_ify_class! B
+assert !Concretize.c_ify_class!(B) # should be all done
+
 assert B.instance_method(:go).arity == -1
+
+
+assert B.public_instance_methods.grep(/go/).length == 1# it should be public...I think
 
 class C
   def go a
@@ -70,9 +75,8 @@ DD.new.go 3, 4 # shouldn't blow! LTODO what was that old way...
 
 assert C.instance_method(:go).arity == 1
 assert String.instance_method(:to_c_strlit).arity == 0
-puts 'cified these', Concretize.concretize_all!
+puts 'cified these', Concretize.concretize_all!.inspect
 assert C.instance_method(:go).arity == -1
-
 assert String.instance_method(:to_c_strlit).arity == -1
 
 

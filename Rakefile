@@ -11,7 +11,8 @@ begin
     s.add_dependency("rubynode", ">= 0.1.1")
     s.add_dependency("rogerdpack-sane")
     s.files.exclude '**/temp*'
-	s.add_dependency("backports")
+	  s.add_dependency("backports")
+	  s.add_development_dependency("assert2")
   end
   Jeweler::Tasks.new(spec)
 
