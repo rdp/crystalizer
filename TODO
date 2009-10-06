@@ -7,5 +7,8 @@ can it run rails? do I need to avoid binding/eval methods etc?
 benchmarks on rails?
 
 fix inline_builtin [meh]
+fix the other bwokded on
 
 make it compile faster [possibilities: fork, can methods compare to those we know are C-y?]
+
+is it faster to compile object's methods down into the class itself? [benchmarks]

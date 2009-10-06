@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/test_bootstrap'
 
 
 class F
-	def go; end
+  def go; end
 end
 F.concretize! # make sure we can
 assert F.instance_method(:go).arity == -1
@@ -79,19 +79,19 @@ assert String.instance_method(:to_c_strlit).arity == -1
 # test some ancestry shtuff
 
 class Parent
-	def go_parent
+  def go_parent
   end
 end
 
 class Child < Parent
-	def go
-	end
+  def go
+  end
 end
 
 assert Child.ancestors[0..1] == [Child, Parent]
 
 # TODO test: if two descend from real_c_klass normal c_klass they both get all of normal's methods
-        	
+
 ruby = Concretize.c_ify! Child, :go, true
 assert ruby.include?('Child')
 assert ruby.include?('Parent')
@@ -100,5 +100,19 @@ assert Child.new.respond_to?( :go )
 
 Child.concretize!
 assert Child.ancestors[0..1] == [Child, Parent]
+
+module M; def go_m a; end; end
+
+class IM; include M;
+end;
+
+IM.new.go_m 2
+assert IM.instance_method(:go_m).arity == 1
+IM.concretize!
+assert IM.instance_method(:go_m).arity == -1
+
+optimized_time = Benchmark.realtime { 1000000.times { a.go 3 }}
+
+puts 'started as', start_time, 'optimized as', optimized_time
 
 puts 'overall concretize success'

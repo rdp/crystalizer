@@ -4,6 +4,13 @@ require "rbconfig"
 require 'sane'
 require 'logger'
 require_rel '.' 
+require "rubynode"
+require "rbconfig"
+require "ruby2cext/parser"
+require "ruby2cext/error"
+require "ruby2cext/tools"
+require "ruby2cext/c_function"
+require "ruby2cext/version"
 require_rel 'plugins' 
 
 module Ruby2CExtension
