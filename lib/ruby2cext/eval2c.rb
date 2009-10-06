@@ -115,9 +115,9 @@ module Ruby2CExtension
 			mod.module_eval &def_proc
 			# restore original visibility
 			mod.module_eval {
-				public *publ_methods unless publ_methods.empty?
-				protected *prot_methods unless prot_methods.empty?
-				private *priv_methods unless priv_methods.empty?
+				public(*publ_methods) unless publ_methods.empty?
+				protected(*prot_methods) unless prot_methods.empty?
+				private(*priv_methods) unless priv_methods.empty?
 			}
 		end
 
