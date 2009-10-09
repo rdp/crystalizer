@@ -1,6 +1,15 @@
 require File.dirname(__FILE__) + '/test_bootstrap'
 require 'assert2'
 
+
+at_exit {
+  if $!
+    puts "==== "
+    puts $!.backtrace.join("\n")
+    puts "===="
+  end
+}
+
 class C
   def go a
     33
