@@ -1,4 +1,11 @@
-# this one does something like... 
+# This one does a  "method cacher" which works as so (I think, anyway).
+#
+# At each method site, first time it gets there it memorizes the location of the method it calls into [if it has an arity of -1, that is].
+#
+# The next time it hits that method site, it checks the caller class against the previous caller class--if the classes match (a cache hit), it calls straight into the cached method (well...not straight into it...more like the equivalent of a direct ruby call into it, which is still much faster).
+
+
+
 # @ location X
 # there is a call of method y on z
 # if z has the same class as last time
@@ -10,8 +17,8 @@
 #
 # this one also conflicts with builtin_extensions
 # which...might be faster?
-# TODOR make the order matter
-# TODOR various
+#
+# What is lacks is *direct* method call if it knows the call is a C call (can it do that though?) through methods that are *not* -1 arity.  I think that's how it can do it.
 
 module Ruby2CExtension::Plugins
 
