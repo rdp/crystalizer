@@ -59,13 +59,6 @@ assert B.instance_method(:go).arity == -1
 
 assert B.public_instance_methods.grep(/go/).length == 1# it should be public...I think
 
-class C
-  def go a
-    33
-  end
-end
-
-
 class DD
   def go a, b
     34
@@ -77,11 +70,6 @@ assert DD.instance_method(:go).arity == -1
 
 DD.new.go 3, 4 # shouldn't raise :)
 
-assert C.instance_method(:go).arity == 1
-assert String.instance_method(:to_c_strlit).arity == 0
-puts 'cified these', Concretize.concretize_all!.inspect
-assert C.instance_method(:go).arity == -1
-assert String.instance_method(:to_c_strlit).arity == -1
 
 # test some ancestry shtuff
 
