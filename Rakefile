@@ -12,6 +12,8 @@ begin
     s.add_dependency("sane")
     s.files.exclude '**/temp*'
     s.add_dependency("backports")
+    s.add_dependency("ruby2ruby")
+    s.add_dependency("ParseTree")
     s.add_development_dependency("assert2")
     s.add_development_dependency("backtracer")
   end
