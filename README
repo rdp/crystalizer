@@ -1,6 +1,6 @@
 ----------- JIT -------------
 
-The crystalizer is a loose wrapper for a ruby2c compiler called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and loads it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, but is indeed much faster.  It has been known to be quite a bit faster than 1.9 in some benchmarks, though it is only 1.8 compatible [presumably if it were 1.9 compatible, it could be even faster].
+The crystalizer is a loose wrapper for a ruby2c compiler called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and loads it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, and currently loses some backtrace information.  It has proven quite a bit faster than 1.9 in some benchmarks, though it is currently only 1.8 compatible [presumably if it were 1.9 compatible, it might be even faster].
 
 Synopsis:
 
@@ -73,3 +73,5 @@ License
 Copyright 2006-2007 Dominik Bathon <dbatml@gmx.de>
 
 Ruby2CExtension is licensed under the same terms as Ruby.
+
+http://github.com/rdp/crystalizer
