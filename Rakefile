@@ -10,6 +10,7 @@ begin
     s.summary = "Ruby2CExtension is a Ruby to C extension translator/compiler/concretizer."
     s.add_dependency("rubynode", ">= 0.1.1")
     s.add_dependency("sane")
+    s.add_dependency("event_hook")
     s.files.exclude '**/temp*'
     s.add_dependency("backports")
     s.add_dependency("ruby2ruby")

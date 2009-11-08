@@ -133,17 +133,43 @@ module Ruby2CExtension
 
     # turn all classes' ruby methods into their C equivalents
     # deemed unstable as of yet :(
-    def Concretize.concretize_all!
+    def Concretize.concretize_all! classes_to_do = nil
     	@@already_cified = {} # in case things have changed...maybe?    
-      all = []
-      ObjectSpace.each_object(Class) {|c|
-        worked = Concretize.c_ify_class!(c)
-        all << c if worked
+    	if !classes_to_do
+    	  classes_to_do = []
+        ObjectSpace.each_object(Class){|c| classes_to_do << c}
+      end
+      
+      all_successful = []
+      classes_to_do.each{|klass|
+        all_successful << klass if Concretize.c_ify_class!(klass)
       }
-      all
+      all_successful
     end
   end
-
+  
+  
+  require 'event_hook'
+  class Tracer < EventHook
+    class << self
+      attr_reader :all_classes
+      def start
+        @all_classes = {}
+        start_hook
+      end
+      def process(*args)
+        # like [16, Tracer, :get_line, Tracer]
+        p args
+      end    
+    end
+  end
+  
+  def Concretize.crystalize_after_first_time_through
+     Tracer.start_hook
+     yield
+     Tracer.stop_hook
+     Concretize.concretize_all! Tracer.all_classes
+  end
 end
 
 class Class
@@ -158,3 +184,6 @@ class Object
    Ruby2CExtension::Concretize.concretize_all!
  end
 end
+
+
+

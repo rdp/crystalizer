@@ -1,3 +1,34 @@
+----------- JIT -------------
+
+The crystalizer is a loose wrapper for a ruby2c compiler called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and loads it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, but is indeed much faster.  It has been known to be quite a bit faster than 1.9 in some benchmarks, though it is only 1.8 compatible [presumably if it were 1.9 compatible, it could be even faster].
+
+Synopsis:
+
+require 'concretizer'
+
+klass.concretize! # concretizes all interior methods of this class
+
+of, if you have several classes and don't want to have to remember exactly which ones to concretize:
+
+Ruby2CExtension::Concretize.crystalize_after_first_time_through {
+    # do some stuff here
+    # after completing this block, it will concretize any and all classes it ran into in the course of the block
+    # so the second and third times through this block should be faster [or any other code that subsequently calls those classes]
+}
+
+And for the daring:
+
+Ruby2CExtension::Conretize.concretize_all!  # optimizes all known classes in the current Ruby VM -- takes forever, might discover bugs in edge cases that aren't covered.
+
+Also an option is the rb2cx executable
+$ rb2cx ruby_filename.rb
+
+creates ruby_filename.{c, so} based on ruby_filename.rb.
+Thus you could run the ruby script's c equivalent thus:
+$ ruby -rruby_filename.so -e ''
+
+
+Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work:
 
 Ruby2CExtension
 ===============
@@ -10,14 +41,14 @@ abstract syntax tree into "equivalent" C extension code.
 Requirements
 ------------
 
-* Ruby 1.8.4, 1.8.5 or 1.8.6
+* Ruby 1.8.4, 1.8.5 or 1.8.6 (possibly 1.8.7--haven't tried)
 * RubyNode (available at http://rubynode.rubyforge.org/)
 
 
 Installation
 ------------
 
-Just run (as root):
+Just run (as root): TODO
 
   gem install ruby2cext
 
@@ -30,22 +61,10 @@ supply some options to setup.rb to customize the installation (see "ruby
 setup.rb --help").
 
 
-
-
 Documentation
 -------------
 
 Please see doc/index.html for more documentation.
-
-
------------ JIT -------------
-
-The original translator has been retrofitted to include a runtime compiler, i.e.
-
-require 'concretizer'
-Ruby2CExtension::Concretize.concretize_all!  # optimizes existing classes
-
-# takes about a minute--maybe more--after this point all previously existing classes' methods will have been condensed down to their speedier C equivalents.
 
 
 License
