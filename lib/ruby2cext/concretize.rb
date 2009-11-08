@@ -149,7 +149,7 @@ module Ruby2CExtension
   end
   
   
-  require 'event_hook'
+  require 'event_hook' # 1.8 only for now [sigh]
   class Tracer < EventHook
     class << self
       def all_classes
