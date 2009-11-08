@@ -152,22 +152,29 @@ module Ruby2CExtension
   require 'event_hook'
   class Tracer < EventHook
     class << self
-      attr_reader :all_classes
+      def all_classes
+        @all_classes.keys
+      end
       def start
         @all_classes = {}
         start_hook
       end
       def process(*args)
         # like [16, Tracer, :get_line, Tracer]
+        # not sure what [1] is versus [3]
         p args
+        @all_classes[args[3]]= true
       end    
     end
   end
   
   def Concretize.crystalize_after_first_time_through
-     Tracer.start_hook
+     raise unless block_given?
+     Tracer.start
      yield
      Tracer.stop_hook
+     raise unless Tracer.all_classes.length > 0
+     puts Tracer.all_classes.inspect
      Concretize.concretize_all! Tracer.all_classes
   end
 end
