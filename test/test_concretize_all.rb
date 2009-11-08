@@ -1,13 +1,5 @@
 require File.dirname(__FILE__) + '/bootstrap'
 
-at_exit {
-  if $!
-    puts "==== "
-    puts $!.backtrace.join("\n")
-    puts "===="
-  end
-}
-
 class C
   def go a
     33

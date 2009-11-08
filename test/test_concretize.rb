@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/bootstrap'
 
-require 'backtracer'
-
 class F
   def go; end
 end

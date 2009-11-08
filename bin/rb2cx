@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
-if File.exist? '../ruby2cext.gemspec'
-  $: << '../lib' # in case you use it without installing from the gem
-  require 'rubygems'
+if $0 == __FILE__
+  require 'rubygems'  
+  $:.unshift '../lib' # in case you use it during development
 end
+
 require "ruby2cext/compiler"
 require "ruby2cext/version"
 require "getoptlong"

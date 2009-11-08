@@ -65,6 +65,10 @@ class CacheCall < Ruby2CExtension::Plugin
             values(cfun, 1, last, recv, *args) { |last, recv, *args|
                 args << last if assign
                 args = args.inject("") { |s, arg| s.concat(", #{arg}") }
+                # cache_call1 means "one argument"
+                # delta == 0 means "they accept exactly as many args as I want to pass them"
+                # delta == 1 means "it accepts -1"
+                # it appears to 
                 call = "cache_call#{argc}(#{allow_private}, &#{entry}, #{recv}, #{cfun.sym(mid)}#{args})"
                 if assign
                     cfun.l("#{call};")
@@ -227,6 +231,7 @@ class CacheCall < Ruby2CExtension::Plugin
                     while (1) {
                         VALUE klass = CLASS_OF(recv);
                         VALUE delta = entry->klass - klass;
+                        // here1
                         switch (delta) {
                         case 0:
                         case 1:
