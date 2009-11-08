@@ -29,3 +29,40 @@ crystalizer with no frame:
 7 took 0.0625
 8 took 0.21875
 9 took 0.578125
+
+Linux:
+
+
+no frame:
+
+rdp@li49-39:~/dev/crystalizer/benchmarks$ ruby -v tak_so.rb
+ruby 1.8.6 (2009-3-4 mbari 8B/0x8770 on patchlevel 287) [i686-linux]
+7 took 0.0658547878265381
+8 took 0.190518856048584
+9 took 0.503773212432861
+7 took 0.0657289028167725
+8 took 0.190982103347778
+9 took 0.503587007522583
+
+
+1.9:
+
+rdp@li49-39:~/dev/crystalizer/benchmarks$ ~/installs/ruby_trunk_installed/bin/ruby -v tak_rb.rb
+ruby 1.9.2dev (2009-07-15 trunk 24111) [i686-linux]
+7 took 0.24192214012145996
+8 took 0.6970930099487305
+9 took 1.854599952697754
+7 took 0.23828792572021484
+8 took 0.6896708011627197
+9 took 1.823138952255249
+
+with frame:
+
+rdp@li49-39:~/dev/crystalizer/benchmarks$ ruby -v tak_so.rb
+ruby 1.8.6 (2009-3-4 mbari 8B/0x8770 on patchlevel 287) [i686-linux]
+7 took 0.110941886901855
+8 took 0.318259954452515
+9 took 0.831670045852661
+7 took 0.110436916351318
+8 took 0.318145036697388
+9 took 0.832131862640381

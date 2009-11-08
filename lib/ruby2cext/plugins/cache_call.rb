@@ -19,7 +19,7 @@ class CacheCall < Ruby2CExtension::Plugin
 
     include Util
 
-    def initialize(compiler, need_frame=false)
+    def initialize(compiler, need_frame=true)
         super(compiler)
         @need_frame = need_frame || nil
         @cache_index = Hash.new { |h,k| h[k] = h.size }
