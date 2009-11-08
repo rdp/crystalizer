@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dominik Bathon, rogerdpack"]
-  s.date = %q{2009-10-10}
+  s.date = %q{2009-11-07}
   s.default_executable = %q{rb2cx}
   s.email = %q{dbatml@gmx.de}
   s.executables = ["rb2cx"]
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "benchmarks/bench.rb",
      "benchmarks/concretize_test.rb",
+     "benchmarks/tak.rb",
      "bin/rb2cx",
      "doc/eval2c.txt",
      "doc/gen_html.rb",
@@ -80,49 +81,6 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/causes_crash_all_opts.rb",
      "test/eval2c/test_eval2c.rb",
-     "test/ruby2ruby-1.2.4/lib/ruby2ruby.rb",
-     "test/ruby2ruby-1.2.4/test/test_ruby2ruby.rb",
-     "test/temp_10.rb",
-     "test/temp_11.rb",
-     "test/temp_12.rb",
-     "test/temp_13.rb",
-     "test/temp_14.rb",
-     "test/temp_15.rb",
-     "test/temp_16.rb",
-     "test/temp_17.rb",
-     "test/temp_18.rb",
-     "test/temp_19.rb",
-     "test/temp_2.rb",
-     "test/temp_20.rb",
-     "test/temp_28.rb",
-     "test/temp_3.rb",
-     "test/temp_31.rb",
-     "test/temp_32.rb",
-     "test/temp_34.rb",
-     "test/temp_37.rb",
-     "test/temp_4.rb",
-     "test/temp_40.rb",
-     "test/temp_43.rb",
-     "test/temp_49.rb",
-     "test/temp_5.rb",
-     "test/temp_50.rb",
-     "test/temp_6.rb",
-     "test/temp_63.rb",
-     "test/temp_67.rb",
-     "test/temp_69.rb",
-     "test/temp_7.rb",
-     "test/temp_77.rb",
-     "test/temp_78.rb",
-     "test/temp_79.rb",
-     "test/temp_8.rb",
-     "test/temp_84.rb",
-     "test/temp_85.rb",
-     "test/temp_86.rb",
-     "test/temp_88.rb",
-     "test/temp_89.rb",
-     "test/temp_9.rb",
-     "test/temp_91.rb",
-     "test/temp_92.rb",
      "test/test_all.rb",
      "test/test_bootstrap.rb",
      "test/test_concretize.rb",
@@ -138,18 +96,18 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rubynode>, [">= 0.1.1"])
-      s.add_runtime_dependency(%q<rogerdpack-sane>, [">= 0"])
+      s.add_runtime_dependency(%q<sane>, [">= 0"])
       s.add_runtime_dependency(%q<backports>, [">= 0"])
       s.add_development_dependency(%q<assert2>, [">= 0"])
     else
       s.add_dependency(%q<rubynode>, [">= 0.1.1"])
-      s.add_dependency(%q<rogerdpack-sane>, [">= 0"])
+      s.add_dependency(%q<sane>, [">= 0"])
       s.add_dependency(%q<backports>, [">= 0"])
       s.add_dependency(%q<assert2>, [">= 0"])
     end
   else
     s.add_dependency(%q<rubynode>, [">= 0.1.1"])
-    s.add_dependency(%q<rogerdpack-sane>, [">= 0"])
+    s.add_dependency(%q<sane>, [">= 0"])
     s.add_dependency(%q<backports>, [">= 0"])
     s.add_dependency(%q<assert2>, [">= 0"])
   end

@@ -4,3 +4,5 @@ require 'rubynode'
 require "../lib/ruby2cext/compiler"
 require "../lib/ruby2cext/version"
 require 'logger'
+require 'assert2'
+require 'benchmark'

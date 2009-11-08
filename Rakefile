@@ -9,10 +9,11 @@ begin
     s.homepage = "http://ruby2cext.rubyforge.org/"
     s.summary = "Ruby2CExtension is a Ruby to C extension translator/compiler/concretizer."
     s.add_dependency("rubynode", ">= 0.1.1")
-    s.add_dependency("rogerdpack-sane")
+    s.add_dependency("sane")
     s.files.exclude '**/temp*'
     s.add_dependency("backports")
     s.add_development_dependency("assert2")
+    s.add_development_dependency("backtracer")
   end
 
 rescue LoadError

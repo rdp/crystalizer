@@ -1,4 +1,4 @@
-# some benchmarks
+# some benchmarks from ruby2cext that it used against itself
 
 require "benchmark"
 

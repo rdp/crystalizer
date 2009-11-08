@@ -1,4 +1,6 @@
-require File.dirname(__FILE__) + '/test_bootstrap'
+# just runs the compiler against some sample files in the test_files directory
+
+require File.dirname(__FILE__) + '/bootstrap'
 include Ruby2CExtension
 
 
@@ -19,7 +21,5 @@ Compiler.compile_file(dir + '/test_files/test.rb', plugins = {},
         include_paths = [], only_c = false, logger)
 require dir + '/test_files/test.so'
 raise "non worky" unless defined?(AliasTest) # should have loaded it in
-
-require dir + '/test_concretize' # run this test, too
 
 puts 'success'

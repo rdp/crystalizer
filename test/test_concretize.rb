@@ -1,14 +1,6 @@
-require File.dirname(__FILE__) + '/test_bootstrap'
-require 'assert2'
-require 'benchmark'
+require File.dirname(__FILE__) + '/bootstrap'
 
-at_exit {
-  if $!
-    puts "==== "
-    puts $!.backtrace.join("\n")
-    puts "===="
-  end
-}
+require 'backtracer'
 
 class F
   def go; end

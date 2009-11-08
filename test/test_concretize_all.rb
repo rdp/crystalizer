@@ -1,6 +1,4 @@
-require File.dirname(__FILE__) + '/test_bootstrap'
-require 'assert2'
-
+require File.dirname(__FILE__) + '/bootstrap'
 
 at_exit {
   if $!
