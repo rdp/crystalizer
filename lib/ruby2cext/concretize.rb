@@ -18,10 +18,14 @@ module Ruby2CExtension
         return nil
       end
       code = @@r2r.process( processed )
-      if code.include?('&block')
+      if code.include?('&block') || code.include?('binding') 
+        # eval?
         # for now, try to avoid the tripsy case of ruby2cext not yielding arrays right yet...
         # TODO add some test cases for it in 'broken.rb' or something
         # LTODO fix it :)
+        
+        # TODO test it with rdoc...yeah. A real test sniff
+        # compare with 1.9...
         nil
       else
         code
