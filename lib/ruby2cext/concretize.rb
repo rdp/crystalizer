@@ -80,7 +80,6 @@ module Ruby2CExtension
         @@cache_hits+= 1
         return ruby_code_wrapped
       else
-        #_dbg
         @@log.debug 'cache miss' + @@good_codes.length.to_s
       end
 
@@ -173,15 +172,12 @@ module Ruby2CExtension
         end
         # TODO optionally take out all private checks :)
         for method_name in klass.instance_methods(false)
-          if(!add_to_string)
-            success |= Concretize.c_ify! klass, method_name
-          else
-            string = Concretize.c_ify!(klass, method_name, true)
-            if(string)
+          string = Concretize.c_ify!(klass, method_name, true)
+          if(string)              
               local_add_to_string << " " << string
               success = true
-            end
           end
+          
         end
         
         if add_to_string
