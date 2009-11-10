@@ -3,7 +3,6 @@ require 'ruby2ruby'
 require 'parse_tree'
 require 'thread' # mutex
 require 'sane'
-require 'backports'
 # LTODO singleton methods, class methods, [procs?]
 
 module Ruby2CExtension
@@ -32,6 +31,16 @@ module Ruby2CExtension
       end
     end 
 
+    
+      begin        
+        $good_codes ||= YAML.load File.read('known_good_codes')
+      rescue Exception
+        $good_codes = {}
+      end
+      
+    at_exit {
+      File.write 'known_good_codes', YAML.dump($good_codes) if $good_codes
+    }
     @@count = 0
     @@mutex = Mutex.new
     @@r2r = Ruby2Ruby.new
@@ -44,15 +53,21 @@ module Ruby2CExtension
 
       # TODO it probably catches railsy class style poorly [re-use my other desc_method?]
       return nil unless code
-      File.open(rb, 'w') do |file|
-        file.write code
-      end
-      output = `ruby -c #{rb} 2>&1`
-      File.delete rb
-      if($?.exitstatus != 0)
-        # unparsable ruby was generated...hmm...
-        puts "got bad code generation", klass, method_name, code
-        return nil # TODO re-parse it [other parser?] make sure it matches [?]
+      
+      unless $good_codes[code]
+        # sometimes ruby2ruby unpacks them wrong...
+        File.open(rb, 'w') do |file|
+          file.write code
+        end
+        output = `ruby -c #{rb} 2>&1`
+        File.delete rb
+        if($?.exitstatus != 0)
+          # unparsable ruby was generated...hmm...
+          puts "got bad code generation", klass, method_name, code
+          return nil # TODO re-parse it [other parser?] make sure it matches [?]
+        else
+          $good_codes[code] = 'ok'
+        end
       end
       
       #assert klass.class.in?( [Class, Module]) # sanity check
@@ -76,7 +91,7 @@ module Ruby2CExtension
       File.open(rb, 'w')  do |out|
         out.write( code )
       end
-      puts code # ruby code
+      puts code if $VERBOSE # ruby code
       #LTODO delete temp file
       return Concretize.compile(rb, want_just_c) rescue nil # might not be compatible here
     end
@@ -166,7 +181,6 @@ module Ruby2CExtension
       def process(*args)
         # like [16, Tracer, :get_line, Tracer]
         # not sure what [1] is versus [3]
-        p args
         @all_classes[args[3]]= true
       end    
     end
@@ -178,7 +192,7 @@ module Ruby2CExtension
      yield
      Tracer.stop_hook
      raise unless Tracer.all_classes.length > 0
-     puts Tracer.all_classes.inspect
+     puts 'crystalizing', Tracer.all_classes.inspect if $VERBOSE
      Concretize.concretize_all! Tracer.all_classes
   end
 end
