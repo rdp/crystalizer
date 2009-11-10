@@ -32,19 +32,20 @@ module Ruby2CExtension
     end 
 
     
-      begin        
-        $good_codes ||= YAML.load File.read('known_good_codes')
-      rescue Exception
-        $good_codes = {}
-      end
+    begin        
+        @@good_codes ||= YAML.load File.read('known_good_codes')
+    rescue Exception
+        @@good_codes = {}
+    end
       
     at_exit {
-      File.write 'known_good_codes', YAML.dump($good_codes) if $good_codes
+      File.write 'known_good_codes', YAML.dump(@@good_codes)
     }
     @@count = 0
     @@mutex = Mutex.new
     @@r2r = Ruby2Ruby.new
     @@pt = ParseTree.new
+    
     def Concretize.c_ify! klass, method_name, want_just_rb = false, want_just_c = false
       source_for(String, :to_c_strlit)
       count = @@mutex.synchronize { @@count += 1 }
@@ -54,7 +55,7 @@ module Ruby2CExtension
       # TODO it probably catches railsy class style poorly [re-use my other desc_method?]
       return nil unless code
       
-      unless $good_codes[code]
+      unless @@good_codes[code]
         # sometimes ruby2ruby unpacks them wrong...
         File.open(rb, 'w') do |file|
           file.write code
@@ -66,7 +67,7 @@ module Ruby2CExtension
           puts "got bad code generation", klass, method_name, code
           return nil # TODO re-parse it [other parser?] make sure it matches [?]
         else
-          $good_codes[code] = 'ok'
+          @@good_codes[code] = 'ok'
         end
       end
       
