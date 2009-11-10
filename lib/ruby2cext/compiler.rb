@@ -12,6 +12,7 @@ require "ruby2cext/tools"
 require "ruby2cext/c_function"
 require "ruby2cext/version"
 require_rel 'plugins' 
+require 'sane'
 
 module Ruby2CExtension
 
