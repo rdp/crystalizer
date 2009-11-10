@@ -1,6 +1,6 @@
 ----------- JIT -------------
 
-The crystalizer is a loose wrapper for a ruby2c compiler called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and loads it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, and currently loses some backtrace information.  It has proven quite a bit faster than 1.9 in some benchmarks, though it is currently only 1.8 compatible [presumably if it were 1.9 compatible, it might be even faster].
+The crystalizer is a loose wrapper for a ruby2c converter called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and re-loadsthe C version over the top of it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, and currently loses some backtrace information.  It has proven quite a bit faster than 1.9 in some benchmarks, though it is currently only 1.8 compatible [presumably if it were 1.9 compatible, it might be even faster].
 
 Synopsis:
 
@@ -28,7 +28,9 @@ Thus you could run the ruby script's c equivalent thus:
 $ ruby -rruby_filename.so -e ''
 
 
-Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work:
+Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work.
+
+Note that crystalize won't crystalize existing procs in the system--they stay as pure Ruby--it crystalizes methods and future procs created from/within those methods, however. 
 
 Ruby2CExtension
 ===============
