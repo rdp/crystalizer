@@ -1,36 +1,56 @@
------------ JIT -------------
+----------- Crystalizer -------------
 
-The crystalizer is a loose wrapper for a ruby2c converter called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and re-loadsthe C version over the top of it, thus effectively JIT-ing your existing Ruby code.  It is called crystalizer because it effectively should be called *after* setting up existing classes and methods, so that when it can "crystalize" the calls to existing methods, by cacheing their location.  Thus, it is not 100% ruby compatible, and currently loses some backtrace information.  It has proven quite a bit faster than 1.9 in some benchmarks, though it is currently only 1.8 compatible [presumably if it were 1.9 compatible, it might be even faster].
+The crystalizer gem is basically a "user friendly" wrapper for a ruby2c converter called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and replaces the existing ruby methods with their C "optimized" equivalents, effectively JIT-ing existing Ruby code.  
 
-Synopsis:
+It is called crystalizer because you create your code first in ruby, then "crystalize" it to C.  It also does call location cacheing, thus it is crystalizing the method call lookups so they can be done in C instead of Ruby, making it faster.
+
+It currently uses most of the optional optimizations that ruby2cext provides, to try and squeeze out as much speed as possible.
+
+On some artificial benchmarks, it has run at up to 5x the speed of 1.9 (http://github.com/rdp/crystalizer/blob/master/results), though it's unclear if it actually provides any speedup in the real world, over 1.9.  If not then updating it to be 1.9 compatible might do the trick.
+
+---- Usage ----
 
 require 'concretizer'
 
-klass.concretize! # concretizes all interior methods of this class
+Klass.concretize! # concretizes all interior methods of this class, and methods of its ancestors
 
-of, if you have several classes and don't want to have to remember exactly which ones to concretize:
+or, if you have several classes and don't want to have to remember exactly which ones to concretize, you can pass it a block.
 
 Ruby2CExtension::Concretize.crystalize_after_first_time_through {
     # do some stuff here
     # after completing this block, it will concretize any and all classes it ran into in the course of the block
     # so the second and third times through this block should be faster [or any other code that subsequently calls those classes]
+    # still a bit buggy
 }
 
-And for the daring:
+And for the daring, concretize all classes thus:
 
-Ruby2CExtension::Conretize.concretize_all!  # optimizes all known classes in the current Ruby VM -- takes forever, might discover bugs in edge cases that aren't covered.
+Ruby2CExtension::Conretize.concretize_all!  # crystalizes all existing classes -- takes forever, you might discover bugs in edge cases that aren't covered yet--but should speed up everything, and it does pass its unit tests, at least.  Report bugs back to me.
 
-Also an option is the rb2cx executable
+Also an option is the included rb2cx executable
 $ rb2cx ruby_filename.rb
 
-creates ruby_filename.{c, so} based on ruby_filename.rb.
+which creates ruby_filename.{c, so} based on ruby_filename.rb.
+
 Thus you could run the ruby script's c equivalent thus:
 $ ruby -rruby_filename.so -e ''
 
+or with optimizations turned on:
+$ rb2cx ruby_filename.rb -O all
 
-Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work.
 
-Note that crystalize won't crystalize existing procs in the system--they stay as pure Ruby--it crystalizes methods and future procs created from/within those methods, however. 
+Caveats:
+
+Some of the optimizations make some speed-up enabling assumptions (like that you won't be overwriting any constants [you don't anyway, right?], and won't be overwriting defined methods).  It therefore isn't 100% pure ruby compatible, and it also loses backtrace information (though there is an option to turn on some backtrace info--it is quite faster without it).  It has thus proven quite a bit faster than 1.9 in some benchmarks, though it is currently a 1.8 only library [presumably if it were made 1.9 compatible, it might be even faster, because the stdlib for 1.9 seems to be faster].
+
+Crystalize only crystalizes methods--it doesn't crystalize proc objects in the system--they stay as pure Ruby--it does crystalize procs created from within crystalized methods, though, which is typically probably good enough. 
+
+Note that you will need the rubynode gem, see below.
+
+Feedback welcome: http://github.com/rdp/crystalizer
+
+
+Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work, basically, with some minor changes.
 
 Ruby2CExtension
 ===============
@@ -44,24 +64,16 @@ Requirements
 ------------
 
 * Ruby 1.8.4, 1.8.5 or 1.8.6 (possibly 1.8.7--haven't tried)
-* RubyNode (available at http://rubynode.rubyforge.org/)
+* RubyNode (available at http://rubynode.rubyforge.org/) 
 
 
 Installation
 ------------
 
-Just run (as root): TODO
+Just run (as root): TODO make this easier
 
   gem install ruby2cext
-
-Or if you do not use the gem:
-
-  ruby setup.rb
-
-This will install Ruby2CExtension to the default locations. Optionally you can
-supply some options to setup.rb to customize the installation (see "ruby
-setup.rb --help").
-
+  # you may need to download the source files for your ruby distro--follow instructions if gem install failure
 
 Documentation
 -------------
@@ -76,4 +88,3 @@ Copyright 2006-2007 Dominik Bathon <dbatml@gmx.de>
 
 Ruby2CExtension is licensed under the same terms as Ruby.
 
-http://github.com/rdp/crystalizer
