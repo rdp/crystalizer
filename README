@@ -18,8 +18,8 @@ or, if you have several classes and don't want to have to remember exactly which
 
 Ruby2CExtension::Concretize.crystalize_after_first_time_through {
     # do some stuff here
-    # after completing this block, it will concretize any and all classes it ran into in the course of the block
-    # so the second and third times through this block should be faster [or any other code that subsequently calls those classes]
+    # after completing this block, it will concretize any and all classes run within the block
+    # so the first time through will slower than usual, and second and third times should be faster [or any other code that subsequently calls those classes]
     # still a bit buggy
 }
 
@@ -38,6 +38,8 @@ $ ruby -rruby_filename.so -e ''
 or with optimizations turned on:
 $ rb2cx ruby_filename.rb -O all
 
+
+Currently the safest/sanest way is to use rb2cx to convert a single file into C, then use that file's .so
 
 Caveats:
 
