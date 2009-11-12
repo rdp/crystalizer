@@ -1,4 +1,4 @@
-Running the file benchmarks/tak.rb (or benchmarks/tak.so)
+Running the file benchmarks/tak [a call site intensive benchmark]
 
 Linux:
 
@@ -68,3 +68,10 @@ win32 + 1.8.6 + crystalizer with no backtrace:
 8 took 0.21875
 9 took 0.578125
 
+
+How to run them yourself:
+checkout source
+$ cd benchmarks
+$ rb2cx tak_source.rb
+$ ruby tak_so.rb # for crystalized run
+$ ruby tak_rb.rb # for pure ruby run
