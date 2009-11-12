@@ -49,6 +49,13 @@ Crystalize only crystalizes methods--it doesn't crystalize proc objects in the s
 
 Note that you will need the rubynode gem, see below.
 
+Also note: not 1.9 compat. currently, though this is probably a high-ish priority, should I ever want more speed than it currently gives :).
+
+
+Usages:
+You could theoretically use this to crystalize slow parts of your code, or a gem packager could even distribute a "pure ruby" and "crystalized" version of their code, let your imagination go wild.
+
+
 Feedback welcome: http://github.com/rdp/crystalizer
 
 
