@@ -90,6 +90,18 @@ Documentation
 Please see doc/index.html for more documentation.
 
 
+Note: It is conceivably possible that because of one optimizing [cached constants], if you use constants instead of instance variables (like @a, @b) it will end up being faster.
+Ex:
+A = {}
+
+def go
+ A.clear
+  # do some stuff with A
+end
+
+Though I haven't speed tested it yet.
+
+
 License
 -------
 
