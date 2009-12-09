@@ -90,16 +90,18 @@ Documentation
 Please see doc/index.html for more documentation.
 
 
-Note: It is conceivably possible that because of one optimizing [cached constants], if you use constants instead of instance variables (like @a, @b) it will end up being faster.
+Note: Local variables are much faster, then (I think) constants, then instance variables (i.e. instance variables can be slower, if you're looking for raw speed).
+You may be able to use and get some speed up if you can use constants instead of instance variables...
+
 Ex:
 A = {}
 
 def go
  A.clear
-  # do some stuff with A
+  # do some stuff with A, as long as you're single threaded and can leave it at the end.
 end
 
-Though I haven't speed tested it yet.
+Though I haven't speed tested this hypothesis yet.
 
 
 License
