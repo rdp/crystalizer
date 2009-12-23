@@ -57,10 +57,28 @@ You could theoretically use this to crystalize slow parts of your code, or a gem
 
 Feedback welcome: http://github.com/rdp/crystalizer
 
+If you have a special use case ["I use int's a lot for mandelbrot!"] or what not let me know--I might be able to optimize crystalizer to accomodate for it [by inlining math, etc.]
+
+
+Speed notes:  Using local variables are much faster, after which in speed is (I think) using constants, then instance variables (i.e. instance variables can be slow, if you're looking for raw speed).  You may be able to use and get some speed up if you can use constants instead of instance variables...
+
+Ex:
+A = {}
+
+def go
+ A.clear
+  # do some stuff with A, as long as you're single threaded and can leave it at the end.
+end
+
+Though I haven't speed tested this hypothesis yet.
+
 
 Much thanks to the original author of Ruby2CExtension, since this is only a wrapper to his work, basically, with some minor changes.
 
-Ruby2CExtension
+Mailing list: http://groups.google.com/group/ruby-optimization
+
+
+Ruby2CExtension (begin original README)...
 ===============
 
 Ruby2CExtension is a Ruby to C extension translator/compiler. It takes any Ruby
@@ -89,18 +107,6 @@ Documentation
 Please see doc/index.html for more documentation.
 
 
-Note: Local variables are much faster, then (I think) constants, then instance variables (i.e. instance variables can be slower, if you're looking for raw speed).
-You may be able to use and get some speed up if you can use constants instead of instance variables...
-
-Ex:
-A = {}
-
-def go
- A.clear
-  # do some stuff with A, as long as you're single threaded and can leave it at the end.
-end
-
-Though I haven't speed tested this hypothesis yet.
 
 
 License
