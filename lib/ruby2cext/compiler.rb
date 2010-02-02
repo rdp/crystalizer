@@ -3,6 +3,7 @@ require "rubynode"
 require "rbconfig"
 require 'sane'
 require 'logger'
+require 'require_all'
 require_rel '.' 
 require "rubynode"
 require "rbconfig"

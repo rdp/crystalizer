@@ -15,6 +15,8 @@ begin
     s.add_dependency("backports")
     s.add_dependency("ruby2ruby")
     s.add_dependency("ParseTree")
+    s.add_dependency("require_all")
+
     s.add_development_dependency("assert2")
     s.add_development_dependency("backtracer")
   end
