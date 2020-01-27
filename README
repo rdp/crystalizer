@@ -1,6 +1,9 @@
 ----------- Crystalizer -------------
 
-The crystalizer gem is basically a "user friendly" wrapper for a ruby2c converter called ruby2cext.  It takes your ruby code, creates its rubyC equivalent, and replaces the existing ruby methods with their C "optimized" equivalents, effectively JIT-ing existing Ruby code.  
+The crystalizer gem is basically a "user friendly" wrapper for a ruby2c JIT converter called ruby2cext https://github.com/smtlaissezfaire/ruby2cext
+
+It takes your ruby code, creates its rubyC equivalent, and replaces the existing ruby methods with their C "optimized" equivalents, 
+effectively JIT-ing existing Ruby code.  
 
 It is called crystalizer because you create your code first in ruby, then "crystalize" it to C.  It also does call location cacheing, thus it is crystalizing the method call lookups so they can be done in C instead of Ruby, making it faster.
 
